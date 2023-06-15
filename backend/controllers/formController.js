@@ -12,6 +12,7 @@ exports.postform = async (req, res, next) => {
       dateOfBirth,
       age,
     } = req.body;
+
     const formData = await Form.create({
       firstName,
       lastName,
@@ -23,7 +24,7 @@ exports.postform = async (req, res, next) => {
       dateOfBirth,
       age,
     });
-
+    console.log();
     return res.status(200).json({
       success: true,
       formData,

@@ -22,13 +22,30 @@ const FormField = () => {
   const [dataCity, setDataCity] = useState([]);
 
   const validationSchema = yup.object().shape({
-    firstName: yup.string().required("Required"),
-    lastName: yup.string().required("Required"),
+    firstName: yup
+      .string()
+      .required("Required")
+      .test("is-integer", "Number must be String.", (value) => {
+        if (value === undefined || value === null) {
+          return false;
+        }
+        return !Number.isInteger(parseInt(value));
+      }),
+    lastName: yup
+      .string()
+      .required("Required")
+      .test("is-integer", "Number must be String.", (value) => {
+        if (value === undefined || value === null) {
+          return false;
+        }
+        return !Number.isInteger(parseInt(value));
+      }),
     email: yup.string().email().required("Required"),
     country: yup.string().required("Required"),
     state: yup.string().required("Required"),
     city: yup.string().required("Required"),
     dateOfBirth: yup.date().required("Required"),
+    age: yup.number().moreThan(14, "Number must be greater than 14."),
   });
   const formRef = useRef();
   const navigate = useNavigate();
@@ -92,7 +109,7 @@ const FormField = () => {
       <fieldset component="fieldset">
         <legend>
           <Typography variant="h3" color={"Highlight"}>
-            Jean-François H
+            Form
           </Typography>
         </legend>
         <Box>
@@ -268,8 +285,11 @@ const FormField = () => {
                       variant="outlined"
                       label="Age(years)"
                       fullWidth
-                      value={values?.age}
+                      value={values?.age > 14 ? values?.age : 0}
                     />
+                    {values?.age < 14 && values.age === 0 ? (
+                      <ErrorMessage name="age" component={TextError} />
+                    ) : null}
                   </Grid>
                   <Grid item xs={12} sm={6} md={4}>
                     <Button

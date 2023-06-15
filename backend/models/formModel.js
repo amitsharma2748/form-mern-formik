@@ -4,10 +4,22 @@ const formSchema = new mongoose.Schema({
   firstName: {
     type: "string",
     required: [true, "please enter a Name"],
+    validate: {
+      validator: function (value) {
+        return !validator.isNumeric(value);
+      },
+      message: "Value must be a valid first Name.",
+    },
   },
   lastName: {
     type: "string",
     required: [true, "please enter a Name"],
+    validate: {
+      validator: function (value) {
+        return !validator.isNumeric(value);
+      },
+      message: "Value must be a valid last Name.",
+    },
   },
   email: {
     type: "string",
@@ -29,7 +41,7 @@ const formSchema = new mongoose.Schema({
   },
   gender: {
     type: "string",
-    required: [true, "please enter a gender"],
+    required: [, "please enter a gender"],
   },
   dateOfBirth: {
     type: Date,
@@ -38,6 +50,12 @@ const formSchema = new mongoose.Schema({
   age: {
     type: Number,
     required: [true, "please enter a age"],
+    validate: {
+      validator: function (value) {
+        return value > 14;
+      },
+      message: "Age must be greater than 14.",
+    },
   },
 });
 
